@@ -13,12 +13,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  //console.log("LAYOUT");
   return (
     <html lang="en">
       <body>
         <Providers>
           <TopNav/>
-          <main className="container mx-auto p-10">
+          <main className="container mx-auto">
             {children}
           </main>
         </Providers>

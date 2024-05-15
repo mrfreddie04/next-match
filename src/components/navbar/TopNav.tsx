@@ -1,9 +1,11 @@
 import React from 'react';
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, Button } from "@nextui-org/react";
 import Link from "next/link";
 import { GiMatchTip } from 'react-icons/gi';
 import { NextPageContext } from 'next';
 import NavLink from './NavLink';
+import { auth } from '@/auth';
+import UserMenu from './UserMenu';
 
 export function getServerSideProps(context: NextPageContext) {
   const route = context.req!.url;
@@ -15,7 +17,11 @@ export function getServerSideProps(context: NextPageContext) {
   };
 }
 
-export default function TopNav() {
+export default async function TopNav() {
+  const session = await auth();
+
+  //console.log("TOPNAV", session?.user?.name)
+  
   return (
     <Navbar 
       maxWidth='xl' 
@@ -40,8 +46,14 @@ export default function TopNav() {
         <NavLink href="/messages">Messages</NavLink>
       </NavbarContent>
       <NavbarContent justify="end">
-        <Button as={Link} href="/login" variant='bordered' className='text-white'>Login</Button>
-        <Button as={Link} href="/register" variant='bordered' className='text-white'>Register</Button>
+        { session?.user ? (
+          <UserMenu user={session.user}/>
+        ) : (
+          <>            
+            <Button as={Link} href="/login" variant='bordered' className='text-white'>Login</Button>
+            <Button as={Link} href="/register" variant='bordered' className='text-white'>Register</Button>
+          </>
+        )}
       </NavbarContent>
     </Navbar>
   )
