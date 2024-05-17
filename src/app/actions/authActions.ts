@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema";
-import { LoginSchema, loginSchema } from "@/lib/schemas/loginSchema";
+import { LoginSchema } from "@/lib/schemas/loginSchema";
 import { User } from "@prisma/client";
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";

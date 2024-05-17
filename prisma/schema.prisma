@@ -21,6 +21,7 @@ model User {
   passwordHash  String
   image         String?
   accounts      Account[]
+  member        Member?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -47,3 +48,31 @@ model Account {
  
   @@unique([provider, providerAccountId])
 }
+
+model Member {
+  id                String      @id @default(cuid())
+  userId            String      @unique
+  name              String
+  image             String?
+  gender            String
+  dateOfBirth       DateTime
+  description       String
+  city              String
+  country           String
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user              User @relation(fields: [userId], references: [id], onDelete: Cascade)  
+  photos            Photo[]
+}  
+
+model Photo {
+  id                String      @id @default(cuid())
+  url               String
+  publicId          String?
+
+  //relations
+  memberId          String      
+  member            Member @relation(fields: [memberId], references: [id], onDelete: Cascade)   
+}    
