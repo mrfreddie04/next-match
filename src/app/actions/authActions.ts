@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { RegisterSchema, registerSchema } from "@/lib/schemas/registerSchema";
 import { LoginSchema } from "@/lib/schemas/loginSchema";
 import { User } from "@prisma/client";
-import { signIn, signOut } from "@/auth";
+import { signIn, signOut, auth } from "@/auth";
 import { AuthError } from "next-auth";
 
 export async function signInUser(data: LoginSchema): Promise<ActionResult<string>> {
@@ -114,4 +114,13 @@ export async function getUserById(id: string) {
   return prisma.user.findUnique({ 
     where: { id: id }
   });
+}
+
+export async function getAuthUserId() {
+  const session = await auth();
+  if(!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+  
+  return session.user.id;
 }

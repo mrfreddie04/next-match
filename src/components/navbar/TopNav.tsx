@@ -20,7 +20,7 @@ export function getServerSideProps(context: NextPageContext) {
 export default async function TopNav() {
   const session = await auth();
 
-  //console.log("TOPNAV", session?.user?.name)
+  console.log("TOPNAV", session?.user?.name)
   
   return (
     <Navbar 
